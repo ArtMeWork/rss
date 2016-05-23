@@ -1,0 +1,29 @@
+{
+  "name": "ngs",
+  "version": "0.0.0",
+  "description": "Test app for NGS",
+  "main": "server.js",
+  "scripts": {
+    "start": "node .",
+    "test": "echo \"Error: no test specified\" && exit"
+  },
+  "webapp": "app",
+  "author": "Artem Bobrov <hello@bobrovartem.ru>",
+  "license": "ISC",
+  "devDependencies": {
+    "bower": "^1.7.9",
+    "grunt": "^1.0.1",
+    "grunt-contrib-clean": "^1.0.0",
+    "grunt-contrib-connect": "^1.0.2",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-cssmin": "^1.0.1",
+    "grunt-contrib-less": "^1.3.0",
+    "grunt-contrib-uglify": "^1.0.1",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-processhtml": "^0.3.13",
+    "time-grunt": "^1.3.0"
+  },
+  "dependencies": {
+    "https": "^1.0.0"
+  }
+}

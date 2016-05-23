@@ -1,0 +1,136 @@
+@import (reference) "_bootstrap.less";
+
+.btn, [type="button"] {
+	&,
+  &:active,
+  &.active {
+    &:focus,
+    &.focus {
+      outline: none;
+    }
+  }
+}
+
+.feeds-list {
+	.feeds-list-item {
+		img {
+			max-width: 50px;
+			max-height: 50px;
+			margin-right: 5px;
+			margin-bottom: 5px;
+		}
+		.feeds-list-item-title {
+			font-size: 13px;
+			font-weight: bold;
+		}
+		.feeds-list-item-description {
+			max-height: 50px;
+			overflow: hidden;
+			white-space: nowrap;
+			font-size: 11px;
+			text-overflow: ellipsis;
+		}
+	}
+}
+
+.feed-panel {
+	.feed-item {
+		padding: 0;
+		&.feed-item-read .feed-item-title {
+			a {
+				color: #888888;
+				.feed-item-read-text {
+					display: inline-block;
+					margin-left: 5px;
+				}
+			}
+		}
+		.feed-item-date {
+			background: @panel-default-border;
+			padding: 10px 15px;
+		}
+		.feed-item-title {
+			background: @panel-default-heading-bg;
+			border-bottom: 1px solid @panel-default-border;
+			padding: 10px 15px;
+			.feed-item-read-text {
+				display: none;
+			}
+		}
+		.feed-item-description {
+			padding: 10px 15px;
+			img {
+				max-width: 100%;
+			}
+		}
+	}
+}
+
+.modal.in {
+	display: block;
+}
+
+.feed-panel .feed-panel-filters {
+	.feed-panel-filters-title {
+		padding-left: 10px;
+		border: 1px solid @btn-default-border;
+		border-radius: @border-radius-small;
+		height: 22px;
+	}
+}
+
+@media (max-width: @screen-xs) {
+	body .feed-panel .feed-panel-filters {
+		.feed-panel-filters-title {
+			height: 30px;
+		}
+		.feed-panel-filters-read {
+
+			display: block;
+			& > .btn, & > .btn-group {
+				float: none;
+				display: block;
+				width: 100%;
+				border-radius: 0;
+				margin: 0;
+			}
+			& > .btn-group {
+				.btn {
+					border-radius: 0;
+					margin-bottom: -1px;
+					.btn-sm;
+				}
+				&:first-child .btn {
+					border-radius: @border-radius-small @border-radius-small 0 0;
+				}
+				&:last-child .btn {
+					border-radius: 0 0 @border-radius-small @border-radius-small;
+				}
+			}
+		}
+	}
+}
+@media (max-width: @screen-sm) {
+	.feed-panel .feed-panel-filters {
+		.feed-panel-filters-title {
+			width: 100%;
+			margin-bottom: 10px;
+		}
+		.feed-panel-filters-read {
+			.btn-group-justified;
+		}
+	}
+}
+
+@media (min-width: @screen-sm) {
+	.feed-panel .feed-panel-filters {
+		.feed-panel-filters-title {
+			float: left;
+			width: auto;
+		}
+		.feed-panel-filters-read {
+			float: right;
+			width: auto;
+		}
+	}
+}

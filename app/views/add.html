@@ -1,0 +1,11 @@
+<div class="panel panel-default">
+  <div class="panel-heading">Форма добавления нового канала</div>
+  <div class="panel-body">
+    <form name="addForm" ng-submit="vm.valid && vm.add()">
+    	<div class="form-group" ng-class="{'has-error': !vm.valid}">
+    		<input type="text" name="url" class="form-control" placeholder="http://example.com/feed.rss" ng-model-options="{debounce: 200}" ng-model="vm.url" ng-change="vm.checkUrl()" required>
+    	</div>
+    	<input type="submit" value="Добавить" class="btn btn-default">
+    </form>
+  </div>
+</div>

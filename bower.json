@@ -1,0 +1,18 @@
+{
+  "name": "ngs",
+  "description": "Test app for NGS",
+  "authors": [
+    "Artem Bobrov <hello@bobrovartem.ru>"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "Angular"
+  ],
+  "moduleType": [],
+  "homepage": "http://bobrovartem.ru/ngs",
+  "dependencies": {
+    "angular": "^1.5.5",
+    "angular-route": "^1.5.5",
+    "bootstrap": "^3.3.6"
+  }
+}
