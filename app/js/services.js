@@ -5,7 +5,8 @@
 		.service('dataService', dataService)
 		.provider('remoteFeed', remoteFeed)
 		.filter('sanitize', sanitizeFilter)
-		.factory('modalService', modalService);
+		.factory('modalService', modalService)
+		.directive('checkUrl', checkUrlDirective);
 
 	feedService.$inject = [];
 
@@ -14,11 +15,24 @@
 			parse: parser,
 			info: getChannelInfo
 		};
-		
-		function template(d) {
-			/*
-				Function "o" - it's try ... catch wrapper, for when rss.value1.value2 does not exist, return null
-			*/
+
+		function parser(xmlStr) {
+			var _parser = null
+			if (window.DOMParser)
+				_parser = ( new window.DOMParser() ).parseFromString(xmlStr, "text/xml"); else
+				if (typeof window.ActiveXObject != "undefined" && new window.ActiveXObject("Microsoft.XMLDOM")) {
+					var xmlDoc = new window.ActiveXObject("Microsoft.XMLDOM");
+					xmlDoc.async = "false";
+					xmlDoc.loadXML(xmlStr);
+					_parser = xmlDoc;
+				} else
+				_parser = null;
+
+			return _parser ? vFeed(XMLtoJSON(_parser)) : {err: "parser_not_found"};
+		}
+
+		function getChannelInfo(json) {
+			/* Function "o" - it's try ... catch wrapper, for when rss.value1.value2 does not exist, return null */
 			var versions = {
 				rss2: function() {
 					var ctx = this.rss.channel;
@@ -47,26 +61,8 @@
 					}
 				}
 			};
-			return versions[d.type].call(d);
-		};
-
-		function parser(xmlStr) {
-			var _parser = null
-			if (window.DOMParser)
-				_parser = ( new window.DOMParser() ).parseFromString(xmlStr, "text/xml"); else
-				if (typeof window.ActiveXObject != "undefined" && new window.ActiveXObject("Microsoft.XMLDOM")) {
-					var xmlDoc = new window.ActiveXObject("Microsoft.XMLDOM");
-					xmlDoc.async = "false";
-					xmlDoc.loadXML(xmlStr);
-					_parser = xmlDoc;
-				} else
-				_parser = null;
-
-			return _parser ? vFeed(XMLtoJSON(_parser)) : {err: "parser_not_found"};
-		}
-
-		function getChannelInfo(json) {
-			return template(json);
+			
+			return versions[json.type].call(json);
 		}
 
 		function XMLtoJSON(xml) {
@@ -138,6 +134,7 @@
 		this.get = get;
 		this.add = add;
 		this.remove = remove;
+
 		function get(name) {
 			return window.localStorage.getItem(name);
 		}
@@ -204,4 +201,29 @@
 			}
 		}
 	}
+
+
+	function checkUrlDirective() {
+		return {
+			require:'ngModel',
+			link: link
+		}
+
+		function link(scope, elm, attrs, ngModelCtrl) {
+			ngModelCtrl.$parsers.unshift(
+				function(viewValue) {
+					ngModelCtrl.$setValidity('strongPass', isValid(viewValue));
+					return viewValue;
+				}
+			);
+		}
+
+		function isValid(val) {
+			return !!(
+				!val || 
+				val.match(/^(https?:\/\/)([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?\/([\da-z\.-]+)\.rss$/)
+			);
+		}
+	}
+
 })();

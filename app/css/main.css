@@ -14,6 +14,16 @@
 [type="button"].active.focus {
   outline: none;
 }
+form:not([novalidate]) .ng-dirty.ng-invalid:not(.ng-empty) {
+  border-color: #a94442;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+form:not([novalidate]) .ng-dirty.ng-invalid:not(.ng-empty):focus {
+  border-color: #843534;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #ce8483;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #ce8483;
+}
 .feeds-list .feeds-list-item img {
   max-width: 50px;
   max-height: 50px;

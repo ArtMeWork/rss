@@ -31,14 +31,7 @@
 		var vm = this;
 		vm.add = getFeed;
 		vm.url = "";
-		vm.checkUrl = checkUrl;
-		vm.valid = true;
 
-		function checkUrl() {
-			if (!vm.url || vm.url.match(/^(https?:\/\/)([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?\/([\da-z\.-]+)\.rss$/))
-				vm.valid = true; else
-				vm.valid = false;
-		}
 		function getFeed() {
 			remoteFeed
 				.feed({ url: vm.url })
@@ -56,16 +49,13 @@
 			feeds = JSON.parse(feeds) || [];
 
 			if(feed.err) {
-
 				var msg = {
 					'unknown_feed': 'Данный тип ленты не поддержиывается',
 					'parser_not_found': 'В браузере не найден xml парсер'
 				}[feed.err];
 				if (msg) alert(msg);
 				console.warn(msg || feed.err);
-
 			} else {
-
 				feeds.push({
 					id: + feedId,
 					title: feed.title,
@@ -75,10 +65,8 @@
 					url_feed: vm.url,
 					url_site: feed.link
 				});
-
-				vm.list = feeds;
 				
-				var id = 0;
+				var id = feedId;
 				feed.items = feed.items.map(function(item) {
 					item.read = false;
 					item.id = id++;
@@ -87,6 +75,8 @@
 
 				dataService.add('feeds', feeds);
 				dataService.add('feed-' + feedId, feed.items);
+
+				vm.list = feeds;
 			}
 		}
 
@@ -108,7 +98,7 @@
 
 		if ($route.current.params.page!==undefined && ($route.current.params.page<=0 || $route.current.params.page> Math.ceil(items.length / limit)))
 			$route.updateParams({page:1});
-
+		
 		vm.info = {};
 		vm.dateStack = dateStack;
 		vm.dateType = dateType;
@@ -200,7 +190,6 @@
 		function openItem(id) {
 			(function(){
 				for(var i = 0; i < items.length; i++) {
-					console.log(items[i].id);
 					if (items[i].id == id) {
 						items[i].read = true;
 						$route.reload();
@@ -234,7 +223,27 @@
 	}
 
 
-	function EditController() {
+	EditController.$inject = ['$route', 'remoteFeed', 'feedService', 'dataService'];
+
+	function EditController($route, remoteFeed, feedService, dataService) {
+		var 
+			id,
+			vm 		= this,
+			feeds = JSON.parse(dataService.get('feeds'));
+
+		feeds.some(function(feed, i) {
+			if (+feed.id === +$route.current.params.id)
+				return id = i; else 
+				return false;
+		});
+
+		vm.url = feeds[id].url_feed;
+		vm.edit = edit;
+
+		function edit() {
+			console.log(feeds[id].url_feed === vm.url);
+		}
+
 	}
 
 

@@ -1,11 +1,11 @@
 <div class="panel panel-default">
-  <div class="panel-heading">Форма редактирования ссылки на канал</div>
+  <div class="panel-heading">Форма редактирования URL канала</div>
   <div class="panel-body">
-    <form name="addForm" ng-submit="vm.valid && vm.edit()">
-    	<div class="form-group" ng-class="{'has-error': !vm.valid}">
-    		<input type="text" name="url" class="form-control" placeholder="http://example.com/feed.rss" ng-model-options="{debounce: 200}" ng-model="vm.url" ng-change="vm.checkUrl()" required>
+    <form name="addForm" ng-submit="addForm.$valid && vm.edit()">
+    	<div class="form-group">
+    		<input type="text" name="url" class="form-control" placeholder="http://example.com/feed.rss" ng-model-options="{debounce: 200}" ng-model="vm.url" check-url required>
     	</div>
-    	<input type="submit" value="Сохранить" class="btn btn-default">
+    	<input type="submit" value="Изменить" class="btn btn-default">
     </form>
   </div>
 </div>
